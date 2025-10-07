@@ -1,4 +1,5 @@
 import 'package:drivers_tracking_app/ui/auth/login/login_screen.dart';
+import 'package:drivers_tracking_app/ui/auth/signup/signup_screen.dart';
 import 'package:drivers_tracking_app/utils/app_routes.dart';
 import 'package:drivers_tracking_app/utils/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           initialRoute: AppRoutes.loginScreenRouteName,
           routes: {
-            AppRoutes.loginScreenRouteName:(context)=>LoginScreen()
+            AppRoutes.loginScreenRouteName:(context)=>LoginScreen(),
+            AppRoutes.signupScreenRouteName:(context)=>SignupScreen()
           },
           theme: AppTheme.lightTheme,
           themeMode: ThemeMode.light,

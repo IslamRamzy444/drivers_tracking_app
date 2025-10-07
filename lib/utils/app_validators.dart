@@ -82,4 +82,32 @@ class AppValidators {
       return null;
     }
   }
+  static String? validatePhoneForFirebase(String? val){
+    if(val==null || val.trim().isEmpty){
+      return "This Field is Required";
+    }
+    final phoneRegex = RegExp(r'^\+\d{10,15}$');
+    if (!phoneRegex.hasMatch(val.trim())) {
+      return "Enter a valid phone number with country code (e.g. +201234567890)";
+    }
+    return null;
+  }
+  static String? validateOTP(String? val){
+    if(val==null || val.trim().isEmpty){
+      return "Please enter the verification code";
+    }else if(val.length!=6){
+      return "Code must be 6 digits";
+    }else{
+      return null;
+    }
+  }
+  static String normalizePhoneForFirebase(String phone) {
+    phone = phone.trim();
+    if (phone.startsWith('0')) {
+      phone = '+2$phone';
+    } else if (!phone.startsWith('+')) {
+      phone = '+$phone';
+    }
+    return phone;
+  }
 }

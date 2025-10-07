@@ -1,31 +1,35 @@
 import 'package:drivers_tracking_app/ui/reusable_widgets/custom_elevated_button.dart';
 import 'package:drivers_tracking_app/ui/reusable_widgets/custom_text_form_field.dart';
 import 'package:drivers_tracking_app/utils/app_colors.dart';
-import 'package:drivers_tracking_app/utils/app_routes.dart';
 import 'package:drivers_tracking_app/utils/app_styles.dart';
 import 'package:drivers_tracking_app/utils/app_validators.dart';
 import 'package:drivers_tracking_app/utils/toast_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   bool codeSent = false;
   final formKey = GlobalKey<FormState>();
+  TextEditingController nameController=TextEditingController();
   TextEditingController phoneController=TextEditingController();
+  TextEditingController roleController=TextEditingController();
+  TextEditingController fileNumberController=TextEditingController();
+  TextEditingController carPlateNumberController=TextEditingController();
+  TextEditingController carModelController=TextEditingController();
   TextEditingController codeController=TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
       body: SafeArea(
-        child:SingleChildScrollView(
+        child: SingleChildScrollView(
           child: Column(
             children: [
               Text("El Beheira Company\nTracking App",style: AppStyles.bold24Golden,),
@@ -37,10 +41,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text("Welcome back to our app",style: AppStyles.semiBold24White,),
+                      Text("Full Name",style: AppStyles.medium18White,),
                       SizedBox(height: 24.h,),
-                      Text("Please sign in with your phone number",style: AppStyles.light16White,),
-                      SizedBox(height: 40.h,),
+                      CustomTextFormField(
+                        controller: nameController,
+                        hintText: "Enter your full name",
+                        validator: AppValidators.validateFullName,
+                      ),
+                      SizedBox(height: 32.h,),
                       Text("Phone number",style: AppStyles.medium18White,),
                       SizedBox(height: 24.h,),
                       CustomTextFormField(
@@ -48,6 +56,42 @@ class _LoginScreenState extends State<LoginScreen> {
                         keyBoardType: TextInputType.phone,
                         hintText: "Enter your phone (e.g. +201234567890)",
                         validator: AppValidators.validatePhoneForFirebase,
+                      ),
+                      SizedBox(height: 32.h,),
+                      Text("Role",style: AppStyles.medium18White,),
+                      SizedBox(height: 24.h,),
+                      CustomTextFormField(
+                        controller: roleController,
+                        hintText: "Enter your role(driver/admin)",
+                        validator: AppValidators.validateRole,
+                      ),
+                      SizedBox(height: 32.h,),
+                      Text("File Number",style: AppStyles.medium18White,),
+                      SizedBox(height: 24.h,),
+                      CustomTextFormField(
+                        controller: fileNumberController,
+                        hintText: "Enter your file number",
+                        validator: AppValidators.validateFileNumber,
+                      ),
+                      SizedBox(height: 32.h,),
+                      Text("Car Plate Number",style: AppStyles.medium18White,),
+                      SizedBox(height: 24.h,),
+                      CustomTextFormField(
+                        controller: carPlateNumberController,
+                        hintText: "Enter the plate number of your car",
+                        validator: (text) {
+                          return AppValidators.validateCarPlateNoAndModel(text, roleController.text);
+                        },
+                      ),
+                      SizedBox(height: 32.h,),
+                      Text("Car Model",style: AppStyles.medium18White,),
+                      SizedBox(height: 24.h,),
+                      CustomTextFormField(
+                        controller: carModelController,
+                        hintText: "Enter the model of your car",
+                        validator: (text) {
+                          return AppValidators.validateCarPlateNoAndModel(text, roleController.text);
+                        },
                       ),
                       if (codeSent) ...[
                         SizedBox(height: 32.h,),
@@ -75,19 +119,19 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Don’t have an account?",style: AppStyles.medium18White,),
+                  Text("Already have an account?",style: AppStyles.medium18White,),
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, AppRoutes.signupScreenRouteName);
+                      Navigator.pop(context);
                     },
-                    child: Text("Create Account",style: AppStyles.medium18White,)
+                    child: Text("Go and sign in",style: AppStyles.medium18White,)
                   )
                 ],
               ),
               SizedBox(height: 32.h,),
             ],
           ),
-        ) 
+        )
       ),
     );
   }
